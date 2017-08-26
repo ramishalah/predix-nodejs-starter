@@ -124,7 +124,7 @@
 						<div class="row center content-space center-align">
 							<div  class="col s6  z-depth-3" style="margin-right : 15px;height : 100px; width:24%; padding-bottom : 0px; border : solid #039be5 2px; color : #039be5">
 
-								<h5 class = "" style="font-size : 15" >rounding</h5>
+								<h5 class = "" style="font-size : 15" >rank</h5>
 								<div class="divider"></div>
 								<h6 id="field1" class = "" style="font-size : 20">67.3</h6>
 								<h5 class = "" style="font-size : 10" >avg at : 
@@ -277,7 +277,7 @@
 
 
 	    var chartData2 = {
-	        labels: ["jan", "feb", "mars", "abril", "june", "julay", "augest", "septemper", "octoper", "november", "december"],
+	        labels: ["12343CT", "12373CT", "647532", "098473CT", "42974CT", "12343CT", "12343CT", "234343CT", "12343CT", "135974CT", "12343CT"],
 	        datasets: [{
 	            label: 'DLP of hospitals',
 	            data: [8, 9, 42, 15, 22, 13,20,22,22,11,12,0],
@@ -359,7 +359,7 @@
 
 	//////////////////////////////SECOND CHART////////////////////////////
 	var chartData2 = {
-	        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange", "Green", "Purple", "Orange", "Green", "Purple", "Orange"],
+	        labels: ["", "", "", "", "", "", "", "", "", "", "", ""],
 	        datasets: [{
 	            label: 'CTDI of hospitals',
 	            data: [8, 9, 42, 15, 22, 13,20,22,22,11,12,0],
@@ -481,7 +481,7 @@
 
 
 	        chart1.data.datasets = [{
-	            label: 'machines of hospitals',
+	            label: 'CTDI by machines',
 	            data: randomArr(),
 	            backgroundColor: [
 	               'rgba(54, 162, 235, 0.8)',
@@ -512,7 +512,7 @@
 	            label: 'last 5 months',
 	            data: randomArr(),
 	            backgroundColor: [
-	               'rgba(54, 162, 235, 1)',
+	               'rgba(54, 162, 235, 0.8)',
 	                'rgba(255, 206, 86, 1)',
 	                'rgba(75, 192, 192, 1)',
 	                'rgba(153, 102, 255, 1)',
@@ -538,7 +538,7 @@
 
 
 	         chart5.data.datasets = [{
-	            label: 'ctdi of hospitals',
+	            label: 'CTDI by protocols',
 	            data: randomArr(),
 	            backgroundColor: [
 	               //'rgba(54, 162, 235, 1)',
@@ -596,7 +596,7 @@
 
 	//////////////////////////////THIRD CHART////////////////////////////
 	var chartData3 = {
-	        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+	        labels: ["", "", "", "", "", ""],
 	        datasets: [{
 	            label: '# of Votes',
 	            data: [8, 9, 42, 15, 22, 13],
@@ -708,7 +708,7 @@
 
 	//////////////////////////////FIFTH CHART////////////////////////////
 	var chartData5 = {
-	        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+	        labels: ["", "", "", "", "", ""],
 	        datasets: [{
 	            label: '# of Votes',
 	            data: [28, 9, 10, 15, 2, 3],
@@ -833,7 +833,7 @@
                 	//set the info in pop up
                     infowindow.setContent("/t"+locations[i][0]);
                     infowindow.open(map, marker);
-                    $('#field1').html(values[Math.floor((Math.random() * values.length) + 1)]);
+                    $('#field1').html(Math.floor((Math.random() * 20) + 1));
                     $('#field11').html(values[Math.floor((Math.random() * values.length) + 1)]);
                     $('#field2').html(dlb[i]);
                     $('#field3').html(Math.round(ctd[i]));
