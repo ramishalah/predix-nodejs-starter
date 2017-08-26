@@ -77,21 +77,6 @@ function byMachine(facility_id, year) {
 	});
 }
 
-// function byMachine(facility_id, year) {
-// 	return query({
-// 		name: 'bymachine',
-// 		text: 	'select ' +
-// 				  'machine_name, ' +
-// 				  'avg(ctdi_vol_max) as ctdi_avg, ' +
-// 				  'avg(normalized_dlp) as dlp_avg, ' +
-// 				'from dosewatch_exams ' +
-// 				'where facility_id = $1 and extract(year from exam_datetime) = $2 ' +
-// 				'group by machine_name',
-// 		values: [facility_id, year],
-// 		rowMode: 'array'
-// 	});
-// }
-
 function byHospital(year) {
 	return query({
 		name: 'byhospital',
@@ -102,6 +87,21 @@ function byHospital(year) {
 				'from dosewatch_exams ' +
 				'where extract(year from exam_datetime) = $1 ' +
 				'group by facility_name',
+		values: [year],
+		rowMode: 'array'
+	});
+}
+
+function forRank(year) {
+	return query({
+		name: 'forrank',
+		text:	'select ' +
+		          'facility_id, ' +
+		          'rank() over (order by avg(ctdi_vol_max)) as ctdi_rank, ' +
+		          'rank() over (order by avg(normalized_dlp)) as dlp_rank ' +
+		        'from dosewatch_exams ' +
+		        'where extract(year from exam_datetime) = $1 ' +
+		        'group by facility_id',
 		values: [year],
 		rowMode: 'array'
 	});
@@ -229,37 +229,23 @@ router.get('/:facility_id/:year/hospitals', function(req, res, next) {
 	);
 });
 
-// router.get('/:facility_id/:year/machines', function(req, res, next) {
-// 	Promise.resolve(byMachine(req.params.facility_id, req.params.year)).then(
-// 		(result) => {
-// 			var rows = result.rows;
-// 			var data = {
-// 				labels: 
-// 				ctdi: { values: [] },
-// 				dlp: { values: [] },
-// 				exams: { values: [] }
-// 			};
+router.get('/:facility_id/:year/rank', function(req, res, next) {
+	Promise.resolve(forRank(req.params.year)).then(
+		(result) => {
+			var rows = result.rows;
+			var data = {
+				ctdi: '0',
+				dlp: '0',
+				total: '0'
+			};
 
-// 			var missing = ['-1', 'missing', 'missing', 'missing'];
-// 			for (var i = 0; i < 12; i++) {
-// 				// optimize
-// 				var month_row = rows.find((e) => e[0] == i) || missing;
+			data.ctdi = rows.find((e) => e[0] == req.params.facility_id)[1];
+			data.dlp = rows.find((e) => e[0] == req.params.facility_id)[2];
+			data.total = rows.length;
 
-// 				var ctdi = month_row[1];
-// 				data.ctdi.values.push(ctdi);
-
-// 				var dlp = month_row[2];
-// 				data.dlp.values.push(dlp);
-
-// 				var exam_count = month_row[3];
-// 				data.exams.values.push(exam_count);
-// 			}
-// 			res.json(data);
-// 		}
-// 	);
-// });
-
-// Helpers
-// var month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+			res.json(data);
+		}
+	);
+});
 
 module.exports = router;
