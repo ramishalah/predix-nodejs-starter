@@ -1,7 +1,7 @@
 ---
 applications:
-- name: predix-nodejs-starter
-  memory: 128M
+- name: ds-nodejs
+  memory: 512M
   buildpack: nodejs_buildpack
   #command:  DEBUG=express:* node app.js
   command:  node server/app.js

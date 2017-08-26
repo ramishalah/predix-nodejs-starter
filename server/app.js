@@ -40,6 +40,9 @@ var learningpaths = require('./learningpaths/learningpaths.js');
 ***********************************************************************/
 var app = express();
 
+var db = require('./dbtest');
+app.use('/api', db);
+
 app.set('trust proxy', 1);
 app.use(cookieParser('predixsample'));
 // Initializing default session store
@@ -50,7 +53,7 @@ app.use(session({
 	proxy: true,
 	resave: true,
 	saveUninitialized: true}));
-
+console.log(config.isUaaConfigured());
 if (config.isUaaConfigured()) {
 	app.use(passport.initialize());
   // Also use passport.session() middleware, to support persistent login sessions (recommended).
