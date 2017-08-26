@@ -2,7 +2,7 @@
   "excludeFiles": [
     "*.js",
     "tests/**/assets",
-    "node_modules/**"
+    "assets/**"
   ],
   "requireCurlyBraces": [
     "if",

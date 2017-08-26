@@ -10,7 +10,7 @@
         "spec": ">=1.0.0 <2.0.0",
         "type": "range"
       },
-      "/Users/y3rbalmstfa/Desktop/predix design/node_modules/chartjs-color-string"
+      "/Users/y3rbalmstfa/Desktop/predix design/assets/chartjs-color-string"
     ]
   ],
   "_from": "color-name@>=1.0.0 <2.0.0",
@@ -44,7 +44,7 @@
   "_shasum": "a7d0558bd89c42f795dd42328f740831ca53bc25",
   "_shrinkwrap": null,
   "_spec": "color-name@^1.0.0",
-  "_where": "/Users/y3rbalmstfa/Desktop/predix design/node_modules/chartjs-color-string",
+  "_where": "/Users/y3rbalmstfa/Desktop/predix design/assets/chartjs-color-string",
   "author": {
     "name": "DY",
     "email": "dfcreative@gmail.com"

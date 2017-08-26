@@ -10,7 +10,7 @@
         "spec": ">=3.0.0 <4.0.0||>=2.1.4 <3.0.0",
         "type": "range"
       },
-      "/Users/y3rbalmstfa/Desktop/predix design/node_modules/materialize-css"
+      "/Users/y3rbalmstfa/Desktop/predix design/assets/materialize-css"
     ]
   ],
   "_from": "jquery@>=3.0.0 <4.0.0||>=2.1.4 <3.0.0",
@@ -44,7 +44,7 @@
   "_shasum": "5c4d9de652af6cd0a770154a631bba12b015c787",
   "_shrinkwrap": null,
   "_spec": "jquery@^3.0.0 || ^2.1.4",
-  "_where": "/Users/y3rbalmstfa/Desktop/predix design/node_modules/materialize-css",
+  "_where": "/Users/y3rbalmstfa/Desktop/predix design/assets/materialize-css",
   "author": {
     "name": "JS Foundation and other contributors",
     "url": "https://github.com/jquery/jquery/blob/3.2.1/AUTHORS.txt"
@@ -159,7 +159,7 @@
   },
   "scripts": {
     "build": "npm install && grunt",
-    "commitmsg": "node node_modules/commitplease",
+    "commitmsg": "node assets/commitplease",
     "precommit": "grunt lint:newer",
     "start": "grunt watch",
     "test": "grunt && grunt test:slow"

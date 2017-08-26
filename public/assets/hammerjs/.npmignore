@@ -18,4 +18,4 @@ results
 tests/build.js
 
 npm-debug.log
-node_modules
+assets

@@ -29,9 +29,9 @@
 
 				<!-- profile info -->
 				<div class="row center grey darken-2 white-text z-depth-3" style="width:100%;">
-					<img class = "circle" src="images/1.jpg" style="margin : 10px; margin-top : 20px ; height : 100px">
+					<img class = "circle" src="images/logo1.jpg" style="margin : 10px; margin-top : 20px ; height : 100px">
 					<h6 style="font-size : 12">Yarob Al-Mostafa</h6>
-					<h6 style="font-size : 8 ; color : #e0e0e0"  >the main hospital in the middle-east</h6>
+					<h6 style="font-size : 8 ; color : #e0e0e0"  >the mistry of health dashboard</h6>
 					<div class="section"></div>
 
 				</div>
@@ -40,7 +40,7 @@
 					<div class="collection" style="border:none">
 				        <a href="#!" class="collection-item no-border active">
 				        	<i class="fa fa-bar-chart fa-lg" aria-hidden="true"></i>
-				        	 My Data</a>
+				        	 all Data</a>
 				        <a href="/login.html" class="collection-item no-border ">
 				        	<i class="fa fa-question-circle fa-lg" aria-hidden="true"></i>
 				        	 About
@@ -53,6 +53,11 @@
 				        <a href="#!" class="collection-item no-border">
 				        	<i class="fa fa-pie-chart fa-lg" aria-hidden="true"></i>
 				        	 More statistics
+				        </a>
+
+				        <a href="/login.html" class="collection-item no-border ">
+				        	<i class="fa fa-question-circle fa-lg" aria-hidden="true"></i>
+				        	 Log out
 				        </a>
 
 				    </div>
@@ -171,7 +176,7 @@
 						<div class="row center center-align" style="height:340px">
 							<div class="col s6 content-space z-depth-3" style="margin-right : 15px;height : 100%; width:32%">
 								<div class="chart-container" style="height:350px">
-									<canvas class = "chart" id="chart3" width="60px" height="60px"></canva>
+									<canvas class = "chart" id="chart1" width="60px" height="60px"></canva>
 								</div>
 
 							</div>
@@ -243,44 +248,38 @@
 
 	<script>
 
+
+
 	var mainData = [];
 	var hospitals = [];
 	var ctd = [];
 	var dlb = [];
 	//////////////////////////////CHARTS CONFIG////////////////////////////
 	Chart.defaults.global.animation.duration = 5000;
+
+
+	function randomArr()
+     {
+     	var arr = [];
+     	for(var i = 0 ; i < 7 ; i++)
+     	{
+     		arr.push(Math.floor((Math.random() * 200) + 1));
+     	}
+
+     	return arr;
+     }
 	
 
 	//////////////////////////////FIRST CHART////////////////////////////
-	var data = {
-	        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-	        datasets: [{
-	            label: '# of Votes',
-	            data: [12, 19, 3, 5, 2, 3],
-	            backgroundColor: [
-	                'rgba(54, 162, 235, 0.6)',
-	                'rgba(255, 206, 86, 0.2)',
-	                'rgba(75, 192, 192, 0.2)',
-	                'rgba(153, 102, 255, 0.2)',
-	                'rgba(255, 159, 64, 0.2)'
-	            ],
-	            borderColor: [
-	                // 'rgba(255,99,132,1)',
-	                'rgba(54, 162, 235, 1)',
-	                'rgba(255, 206, 86, 1)',
-	                'rgba(75, 192, 192, 1)',
-	                'rgba(153, 102, 255, 1)',
-	                'rgba(255, 159, 64, 1)'
-	            ],
-	            borderWidth: 1
-	        }]
-	    };
+	
+	
+
 
 
 	    var chartData2 = {
-	        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange", "Green", "Purple", "Orange", "Green", "Purple", "Orange"],
+	        labels: ["jan", "feb", "mars", "abril", "june", "julay", "augest", "septemper", "octoper", "november", "december"],
 	        datasets: [{
-	            label: 'ctdi of hospitals',
+	            label: 'DLP of hospitals',
 	            data: [8, 9, 42, 15, 22, 13,20,22,22,11,12,0],
 	            backgroundColor: [
 	               'rgba(54, 162, 235, 1)',
@@ -312,6 +311,35 @@
 	    }
 
 
+	    var ctx = document.getElementById("chart1").getContext('2d');
+	var chart1 = new Chart(ctx, 
+	{
+	    type: 'bar',
+	    data: chartData2,
+	    options: 
+	    {
+	    	animation: 
+	    	{
+	            onComplete: function(animation) 
+	            {
+	                
+	            }
+	        },
+
+	        scales: 
+	        {
+	            yAxes: 
+	            [{
+	                ticks: 
+	                {
+	                    beginAtZero:true
+	                }
+	            }]
+	        }
+	    }
+	});
+
+
 	 var chartOptions =  
 	    {
 	    	scales: 
@@ -327,19 +355,13 @@
 	    };
 
 
-	var chart = $("#chart");
-	var myLineChart = new Chart(chart, 
-	{
-	    type: 'bar',
-	    data: chartData2,
-	    options: chartOptions
-	});
+	
 
 	//////////////////////////////SECOND CHART////////////////////////////
 	var chartData2 = {
 	        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange", "Green", "Purple", "Orange", "Green", "Purple", "Orange"],
 	        datasets: [{
-	            label: 'ctdi of hospitals',
+	            label: 'CTDI of hospitals',
 	            data: [8, 9, 42, 15, 22, 13,20,22,22,11,12,0],
 	            backgroundColor: [
 	               'rgba(54, 162, 235, 1)',
@@ -399,16 +421,159 @@
 	});
 
 
-	function removeData(chart) 
+	function removeData(c) 
 	{
 	    chart2.data.labels = hospitals;
-	    chart2.data.datasets.data = ctd;
+	    // chart2.data.datasets.data = ctd;
+	     chart2.data.datasets = [{
+	            label: 'CTDI of hospitals',
+	            data: ctd,
+	            backgroundColor: [
+	               'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)',
+	                'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)'
+	            ],
+	            borderColor: [
+	                // 'rgba(255,99,132,1)',
+	                // 'rgba(54, 162, 235, 1)',
+	                //'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)'
+	            ],
+	            borderWidth: 1
+	        }];
+
+
+	        chart.data.labels = hospitals;
+	        chart.data.datasets = [{
+	            label: 'DLB of hospitals',
+	            data: dlb,
+	            backgroundColor: [
+	               'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)',
+	                'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)'
+	            ],
+	            borderColor: [
+	                // 'rgba(255,99,132,1)',
+	                // 'rgba(54, 162, 235, 1)',
+	                //'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)'
+	            ],
+	            borderWidth: 1
+	        }];
+
+
+	        chart1.data.datasets = [{
+	            label: 'machines of hospitals',
+	            data: randomArr(),
+	            backgroundColor: [
+	               'rgba(54, 162, 235, 0.8)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)',
+	                'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)'
+	            ],
+	            borderColor: [
+	                // 'rgba(255,99,132,1)',
+	                // 'rgba(54, 162, 235, 1)',
+	                //'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)'
+	            ],
+	            borderWidth: 1
+	        }];
+
+
+
+	        chart4.data.datasets = [{
+	            label: 'last 5 months',
+	            data: randomArr(),
+	            backgroundColor: [
+	               'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)',
+	                'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)'
+	            ],
+	            borderColor: [
+	                // 'rgba(255,99,132,1)',
+	                // 'rgba(54, 162, 235, 1)',
+	                //'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)'
+	            ],
+	            borderWidth: 1
+	        }];
+
+
+
+
+	         chart5.data.datasets = [{
+	            label: 'ctdi of hospitals',
+	            data: randomArr(),
+	            backgroundColor: [
+	               //'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 0.5)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)',
+	                'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)'
+	            ],
+	            borderColor: [
+	                // 'rgba(255,99,132,1)',
+	                // 'rgba(54, 162, 235, 1)',
+	                //'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)'
+	            ],
+	            borderWidth: 1
+	        }];
+
+	    //chart.data.labels = hospitals;
 
 	    
 	    // chart2.data.datasets.forEach((dataset) => {
 	    //     dataset.data.pop();
 	    // });
 	    chart2.update();
+	    chart4.update();
+	    chart.update();
+	    chart1.update();
+	    chart5.update();
 	}
 
 
@@ -454,8 +619,8 @@
 	        }]
 	    }
 
-	var ctx = document.getElementById("chart3").getContext('2d');
-	var chart3 = new Chart(ctx, 
+	var ctx = document.getElementById("chart").getContext('2d');
+	var chart = new Chart(ctx, 
 	{
 	    type: 'bar',
 	    data: chartData3,
@@ -487,7 +652,7 @@
 
 	//////////////////////////////FOURTH CHART////////////////////////////
 	var chartData4 = {
-	        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+	        labels: ["Mars", "April", "May", "June", "Julay", "Ogust"],
 	        datasets: [{
 	            label: '# of Votes',
 	            data: [10, 9, 10, 14, 25, 13],
@@ -731,6 +896,8 @@
 		  }
 		  console.log(data);
 	});
+     
+
      
 
 

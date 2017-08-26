@@ -15,8 +15,8 @@ module.exports = function(grunt) {
         ],
         options: {
           vendor: [
-            'node_modules/jquery/dist/jquery.min.js',
-            'node_modules/jasmine-jquery/lib/jasmine-jquery.js'
+            'assets/jquery/dist/jquery.min.js',
+            'assets/jasmine-jquery/lib/jasmine-jquery.js'
           ],
           styles: 'bin/materialize.css',
           specs: 'tests/spec/**/*Spec.js',
@@ -126,7 +126,7 @@ module.exports = function(grunt) {
 
     // Browser Sync integration
     browserSync: {
-      bsFiles: ["bin/*.js", "bin/*.css", "!**/node_modules/**/*"],
+      bsFiles: ["bin/*.js", "bin/*.css", "!**/assets/**/*"],
       options: {
         server: {
           baseDir: "./" // make server from root dir
