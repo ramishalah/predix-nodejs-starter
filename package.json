@@ -25,7 +25,8 @@
     "passport-predix-oauth": "0.1.13",
     "pg": "^7.2.0",
     "request": "~2.67.0",
-    "url": "~0.11.0"
+    "url": "~0.11.0",
+    "project": "file:./public"
   },
   "author": "swapnavad,gstroup",
   "devDependencies": {

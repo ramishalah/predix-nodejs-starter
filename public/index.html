@@ -1,71 +1,739 @@
-<!DOCTYPE html>
 <html>
 <head>
-  <title>Predix Node JS Starter App</title>
-  <link rel="stylesheet" href="stylesheets/style.css"></link>
-  <script src="../scripts/learningpaths.js"></script>
+	<title></title>
+	<link rel="stylesheet" href="assets/materialize-css/dist/css/materialize.min.css">
+
+	<link rel="stylesheet"
+          href="style/css/style.css">
+
+	<!-- fonts -->
+      <link href="https://fonts.googleapis.com/css?family=Lemonada" rel="stylesheet">
+
+      <!-- icons font -->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+
+      <!-- font awsome -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body onload="learningPaths(this);">
 <body>
-  <div class="header">
-    <div>
-    <h2>My First Predix Sample Application</h2>
-    <h4>Predix Developer Kit</h4>
-  </div>
-  <div>
-  </div>
-  <div class="header-logo-container">
-    <img  class="header-logo" src="/images/predix_logo.svg"></img>
-    </div>
-  </div>
-  <section class="section">
-    <ul id=learningpaths.cloudbasics style="display:none">
-        <li>
-            <h3>Welcome to a simple Node.js Express App</h3>
-          </li>
-        <div class="body-img-container">
-          <img class="body-img" src="/images/wind-turbine-2.png"></img>
-        </div>
-        <div class="body-container">
-          <li>
-            <h3>What's Inside
-          </li>
-          <li>
-            This app displays <a target="_blank" href="https://github.com/PredixDev/predix-nodejs-starter/blob/master/public"> index.html</a> (that's the page you are reading now).  Notice it's in the public directory?
-          </li>
-          <li>
-            Node.js loads the app on the server side in the file <a target="_blank" href="https://github.com/PredixDev/predix-nodejs-starter/tree/master/server"> app.js</a>.  Notice this file is in the server directory?
-          </li>
-          <li>
-            The <a target="_blank" href="https://github.com/PredixDev/predix-nodejs-starter/tree/master/server/routes/index.js"> routes/index.js</a> is used to set up a route url for this app.  Routes are how Node.js matches logic tied to a url. Notice this file is in the server/routes directory?
-          </li>
-          <li>
-            The other files become enabled in future tutorials.
-          </li>
-          <br>
-          <li>
-            <h3>What's Next
-          </li>
-          <li>
-            <p>Visit <a target="_blank" href="https://www.predix.io/resources/tutorials/tutorial-details.html?tutorial_id=1523&tag=1719&journey=Hello%20World&resources=1475,1569,1523"> Back End Hello World </a>.</p>
-            <p>To turn on Login and view a secure page, continue with the <a target="_blank" href="https://www.predix.io/resources/tutorials/journey.html#1605"> Build a Basic App Guide</a>.</p>
-          </li>
-        </div>
-      </ul>
-      <ul id=learningpaths.authentication style="display:none">
-        <p>This sample app shows how a basic web application works with Predix UAA.</p>
-        <li id=login >
-          <a href="/login?state=secure">Login</a>
-        </li>
-        <li id=securepage >
-          <a href="/secure">Secure Page</a>
-        </li>
-    </ul>
-  </section>
-  <div class="footer">
-    <div class="footer-logo-container">
-      <img class="footer-logo" src="/images/monogram-wdmk.png"></img>
-    </div>
-  </div>
+	<!-- <div class="container" style="width:500px; height:500px">
+		<canvas id="myChart" width="20" height="20"></canvas>
+
+		<canvas id="chart" width="20" height="20"></canvas>
+	</div> -->
+	<!-- the layout row -->
+	<div class="row">
+		<!-- the side bar column -->
+			<div style="height:1500px;padding:0px;" id = "left-col" class="col m3 centered mainFont z-depth-4">
+
+				<!-- profile info -->
+				<div class="row center grey darken-2 white-text z-depth-3" style="width:100%;">
+					<img class = "circle" src="images/1.jpg" style="margin : 10px; margin-top : 20px ; height : 100px">
+					<h6 style="font-size : 12">Yarob Al-Mostafa</h6>
+					<h6 style="font-size : 8 ; color : #e0e0e0"  >the main hospital in the middle-east</h6>
+					<div class="section"></div>
+
+				</div>
+
+				<div class="row">
+					<div class="collection" style="border:none">
+				        <a href="#!" class="collection-item no-border active">
+				        	<i class="fa fa-bar-chart fa-lg" aria-hidden="true"></i>
+				        	 My Data</a>
+				        <a href="/login.html" class="collection-item no-border ">
+				        	<i class="fa fa-question-circle fa-lg" aria-hidden="true"></i>
+				        	 About
+				        </a>
+				        <a href="#!" class="collection-item no-border">
+				        	<i class="fa fa-area-chart fa-lg" aria-hidden="true"></i>
+				        	 Compare
+				        </a>
+
+				        <a href="#!" class="collection-item no-border">
+				        	<i class="fa fa-pie-chart fa-lg" aria-hidden="true"></i>
+				        	 More statistics
+				        </a>
+
+				    </div>
+			  </div>
+
+			  <div class="divider" style="margin:auto 15px"></div>
+
+			</div>
+
+			<div  class="col m9  mainFont" style="padding:0px">
+
+				<!-- the first nav -->
+				<nav id = "top-nav" class = 'mainColor z-depth-3'>
+
+				    <div class="nav-wrapper">
+
+				    	<a style="margin-left:10px" href="#" class="left brand-logo">
+					      	<h4 class = "mainFont left-align"><i class="fa fa-line-chart fa-lg" aria-hidden="true"></i>
+					      		Data Analyser 
+					      	</h4>
+					      	<h6 style="font-size:12px" class = "mainFont left-align">All your data in one page</h6>
+					      </a>
+
+					      <a href="#" class="brand-logo center" >
+					      	<!-- <i class="fa fa-line-chart fa-2x" aria-hidden="true"></i> -->
+					      </a>
+				        
+					</div>
+
+				</nav>
+
+				<!-- the second nav -->
+				<nav id = "maind-nav" class = 'mainColor2'>
+					<div style="margin-left:10px"  class="nav-wrapper mainFont">
+				      <ul id="nav-mobile" class="left hide-on-med-and-down">
+
+				        <li><a href="collapsible.html">Data</a></li>
+				      	<li><a href="collapsible.html">About</a></li>
+				        <li><a href="sass.html">Manage</a></li>
+				        <li><a href="badges.html">Contacts</a></li>
+				        
+				      </ul>
+				    </div>
+				</nav>
+
+
+				<div class="section"></div>
+
+					<!-- the row of content -->
+					<div class="row" style="margin : auto 20px">
+						
+						<!-- 4 parts row -->
+						
+
+
+						
+						<div class="row"  >
+							<div class="col s12  z-depth-2" style="height : 400px ; margin-right : 10px;">
+								<div id="map" style="height : 100% ;">
+								</div>
+							</div>
+						</div>
+
+						<div class="row center content-space center-align">
+							<div  class="col s6  z-depth-3" style="margin-right : 15px;height : 100px; width:24%; padding-bottom : 0px; border : solid #039be5 2px; color : #039be5">
+
+								<h5 class = "" style="font-size : 15" >rounding</h5>
+								<div class="divider"></div>
+								<h6 id="field1" class = "" style="font-size : 20">67.3</h6>
+								<h5 class = "" style="font-size : 10" >avg at : 
+									<span id="field11">40</span> 
+								</h5>
+							</div>
+
+							<div  class="col s6 content-space z-depth-3  " style="margin-right : 15px;height : 100px ;width:24% ;border : solid #fbc02d 2px; color : #fbc02d">
+
+								<h5 class = style="font-size : 15" >Avg DIP</h5>
+								<div class="divider"></div>
+								<h6 id="field2" class = style="font-size : 20">233.5</h6>
+								
+							</div>
+
+							<div  class="col s6 content-space z-depth-3" style="margin-right : 15px; height : 100px ;width:23%; color:#4caf50; border : solid #4caf50 2px;">
+								
+								<h5  style="font-size : 15" >Avg ctdi</h5>
+								<div class="divider" style="color : #4caf50;"></div>
+								<h6 id="field3" style="font-size : 20">6888.3</h6>
+								<h5 id="field33" style="font-size : 10" >avg at : 40 </h5>
+							</div>
+
+							<div  class="col s6 content-space z-depth-3" style="height : 100px ;width:23% ; border : solid #b71c1c 2px; color : #b71c1c">
+								<h5  style="font-size : 15" >#exams</h5>
+								<div class="divider"></div>
+								<h6 class = "" id="field4" style="font-size : 20">3000</h6>
+							</div>
+						</div>
+
+						<!-- two charts row -->
+						<div class="row">
+							<div class="padding center col s6 content-space z-depth-3" style="height : 400px; width:49%;">
+									<div class="chart-container">
+										<canvas  class = "chart" id="chart" width="60px" height="60px"></canvas>
+									</div>
+								
+							</div>
+
+							<div class="col s6 content-space z-depth-3 right" style="height : 400px ;width:49%">
+								<div class="chart-container">
+									<canvas class = "chart" id="chart2" width="60px" height="60px"></canva>
+								</div>
+							</div>
+						</div>
+
+
+						<!-- 3 parts row -->
+						<div class="row center center-align" style="height:340px">
+							<div class="col s6 content-space z-depth-3" style="margin-right : 15px;height : 100%; width:32%">
+								<div class="chart-container" style="height:350px">
+									<canvas class = "chart" id="chart3" width="60px" height="60px"></canva>
+								</div>
+
+							</div>
+
+							<div class="col s6 content-space z-depth-3 " style="margin-right : 15px;height : 100% ;width:32%">
+								<div class="chart-container" style="height:350px">
+									<canvas class = "chart" id="chart4" width="60px" height="60px"></canva>
+								</div>
+							</div>
+
+							<div class="col s6 content-space z-depth-3 " style="height : 100% ;width:32%">
+								<div class="chart-container" style="height:350px">
+									<canvas class = "chart" id="chart5" width="60px" height="60px"></canva>
+								</div>
+							</div>
+						</div>
+
+
+
+					
+					</div>
+					<!-- the end of the row of content -->
+
+
+			</div>
+	</div>
+
+
+
+
+
+
+    <footer class="page-footer mainColor" style = "margin-top : 50px">
+          <div class="container">
+            <div class="row">
+              <div class="col l6 s12">
+                <h5 class="white-text">Footer Content</h5>
+                <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+              </div>
+              <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Links</h5>
+                <ul>
+                  <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="footer-copyright">
+            <div class="container">
+            © 2014 Copyright Text
+            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+            </div>
+          </div>
+    </footer>
+
+
+
+
+
+
+
+
+<!-- scripts -->
+<script type="text/javascript" src="assets/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="assets/materialize-css/dist/js/materialize.min.js"></script>
+  <script type="text/javascript" src="assets/chart.js/dist/Chart.min.js"></script>
+
+
+	<script>
+
+	var mainData = [];
+	var hospitals = [];
+	var ctd = [];
+	var dlb = [];
+	//////////////////////////////CHARTS CONFIG////////////////////////////
+	Chart.defaults.global.animation.duration = 5000;
+	
+
+	//////////////////////////////FIRST CHART////////////////////////////
+	var data = {
+	        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+	        datasets: [{
+	            label: '# of Votes',
+	            data: [12, 19, 3, 5, 2, 3],
+	            backgroundColor: [
+	                'rgba(54, 162, 235, 0.6)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(75, 192, 192, 0.2)',
+	                'rgba(153, 102, 255, 0.2)',
+	                'rgba(255, 159, 64, 0.2)'
+	            ],
+	            borderColor: [
+	                // 'rgba(255,99,132,1)',
+	                'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)'
+	            ],
+	            borderWidth: 1
+	        }]
+	    };
+
+
+	    var chartData2 = {
+	        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange", "Green", "Purple", "Orange", "Green", "Purple", "Orange"],
+	        datasets: [{
+	            label: 'ctdi of hospitals',
+	            data: [8, 9, 42, 15, 22, 13,20,22,22,11,12,0],
+	            backgroundColor: [
+	               'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)',
+	                'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)'
+	            ],
+	            borderColor: [
+	                // 'rgba(255,99,132,1)',
+	                'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)',
+	                'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)'
+	            ],
+	            borderWidth: 1
+	        }]
+	    }
+
+
+	 var chartOptions =  
+	    {
+	    	scales: 
+	        {
+	            yAxes: 
+	            [{
+	                ticks: 
+	                {
+	                    beginAtZero:true
+	                }
+	            }]
+	        }
+	    };
+
+
+	var chart = $("#chart");
+	var myLineChart = new Chart(chart, 
+	{
+	    type: 'bar',
+	    data: chartData2,
+	    options: chartOptions
+	});
+
+	//////////////////////////////SECOND CHART////////////////////////////
+	var chartData2 = {
+	        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange", "Green", "Purple", "Orange", "Green", "Purple", "Orange"],
+	        datasets: [{
+	            label: 'ctdi of hospitals',
+	            data: [8, 9, 42, 15, 22, 13,20,22,22,11,12,0],
+	            backgroundColor: [
+	               'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)',
+	                'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)'
+	            ],
+	            borderColor: [
+	                // 'rgba(255,99,132,1)',
+	                'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)',
+	                'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)'
+	            ],
+	            borderWidth: 1
+	        }]
+	    }
+
+	var ctx = document.getElementById("chart2").getContext('2d');
+	var chart2 = new Chart(ctx, 
+	{
+	    type: 'bar',
+	    data: chartData2,
+	    options: 
+	    {
+	    	animation: 
+	    	{
+	            onComplete: function(animation) 
+	            {
+	                
+	            }
+	        },
+
+	        scales: 
+	        {
+	            yAxes: 
+	            [{
+	                ticks: 
+	                {
+	                    beginAtZero:true
+	                }
+	            }]
+	        }
+	    }
+	});
+
+
+	function removeData(chart) 
+	{
+	    chart2.data.labels = hospitals;
+	    chart2.data.datasets.data = ctd;
+
+	    
+	    // chart2.data.datasets.forEach((dataset) => {
+	    //     dataset.data.pop();
+	    // });
+	    chart2.update();
+	}
+
+
+	// function addData(chart,labels,arr) {
+
+	// 	chart.data.labels = labels;
+	//     chart.data.datasets.data = arr;
+	//     chart.update();
+	// }
+
+	function addData(chart, label, data) {
+	    chart2.data.labels.push(label);
+	    chart2.data.datasets.forEach((dataset) => {
+	        dataset.data.push(data);
+	    });
+	    chart2.update();
+	}
+
+
+
+	//////////////////////////////THIRD CHART////////////////////////////
+	var chartData3 = {
+	        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+	        datasets: [{
+	            label: '# of Votes',
+	            data: [8, 9, 42, 15, 22, 13],
+	            backgroundColor: [
+	                // 'rgba(54, 162, 235, 0.2)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)'
+	            ],
+	            borderColor: [
+	                // 'rgba(255,99,132,1)',
+	                // 'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)'
+	            ],
+	            borderWidth: 1
+	        }]
+	    }
+
+	var ctx = document.getElementById("chart3").getContext('2d');
+	var chart3 = new Chart(ctx, 
+	{
+	    type: 'bar',
+	    data: chartData3,
+	    options: 
+	    {
+	    	animation: 
+	    	{
+	            onComplete: function(animation) 
+	            {
+	                
+	            }
+	        },
+
+	        scales: 
+	        {
+	            yAxes: 
+	            [{
+	                ticks: 
+	                {
+	                    beginAtZero:true
+	                }
+	            }]
+	        }
+	    }
+	});
+
+
+
+
+	//////////////////////////////FOURTH CHART////////////////////////////
+	var chartData4 = {
+	        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+	        datasets: [{
+	            label: '# of Votes',
+	            data: [10, 9, 10, 14, 25, 13],
+	            backgroundColor: [
+	                // 'rgba(54, 162, 235, 0.2)',
+	                //'rgba(255, 206, 86, 1)',
+	                //'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 0.5)',
+	                'rgba(255, 159, 64, 1)'
+	            ],
+	            borderColor: [
+	                // 'rgba(255,99,132,1)',
+	                // 'rgba(54, 162, 235, 1)',
+	                //'rgba(255, 206, 86, 1)',
+	                //'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)'
+	            ],
+	            borderWidth: 1
+	        }]
+	    }
+
+	 var ctx = document.getElementById("chart4").getContext('2d');
+	var chart4 = new Chart(ctx, 
+	{
+	    type: 'line',
+	    data: chartData4,
+	    options: 
+	    {
+	    	animation: 
+	    	{
+	            onComplete: function(animation) 
+	            {
+	                
+	            }
+	        },
+
+	        scales: 
+	        {
+	            yAxes: 
+	            [{
+	                ticks: 
+	                {
+	                    beginAtZero:true
+	                }
+	            }]
+	        }
+	    }
+	});
+
+
+
+
+	//////////////////////////////FIFTH CHART////////////////////////////
+	var chartData5 = {
+	        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+	        datasets: [{
+	            label: '# of Votes',
+	            data: [28, 9, 10, 15, 2, 3],
+	            backgroundColor: [
+	                // 'rgba(54, 162, 235, 0.2)',
+	                //'rgba(255, 206, 86, 0.6)',
+	                'rgba(75, 192, 192, 0.6)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)'
+	            ],
+	            borderColor: [
+	                // 'rgba(255,99,132,1)',
+	                // 'rgba(54, 162, 235, 1)',
+	                //'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)'
+	            ],
+	            borderWidth: 1
+	        }]
+	    }
+
+	 var ctx = document.getElementById("chart5").getContext('2d');
+	var chart5 = new Chart(ctx, 
+	{
+	    type: 'line',
+	    data: chartData5,
+	    options: 
+	    {
+	    	animation: 
+	    	{
+	            onComplete: function(animation) 
+	            {
+	                
+	            }
+	        },
+
+	        scales: 
+	        {
+	            yAxes: 
+	            [{
+	                ticks: 
+	                {
+	                    beginAtZero:true
+	                }
+	            }]
+	        }
+	    }
+	});
+
+
+
+
+	
+
+
+
+	///////////////////////////////FUNCTIONS//////////////////
+	function setSize()
+	{
+		$('.chart').css('height','100%');
+		$('.chart').css('width','100%');
+	}
+	setSize();
+
+
+
+	</script>
+
+
+	<script>
+      var map;
+      var locations = [
+          ['Title A', 24.493807,45.784963, 1],
+          ['Title B', 23.493807,44.784963, 2],
+          ['Title C', 24.493807,43.784963, 3],
+          ['Title D', 23.493807,45.784963, 4],
+          ['Title E', 23.493807,48.784963, 4],
+          ['Title F', 23.493807,49.784963, 4],
+          ['Title G', 23.493807,50.784963, 4],
+          ['Title H', 20.493807,45.784963, 4],
+          ['Title I', 25.493807,40.784963, 4],
+          ['Title J', 20.493807,45.784963, 4],
+          ['Title K', 21.493807,49.784963, 4],
+          ['Title L', 20.493807,45.784963, 4]
+      ];
+      // Create a <script> tag and set the USGS URL as the source.
+        var script = document.createElement('script');
+
+        // This example uses a local copy of the GeoJSON stored at
+        // http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojsonp
+        script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCJH7AQ9dOKuY_TK_SF5t8kZDNTdUCS1-Q&callback=initMap&libraries=drawing';
+        document.getElementsByTagName('head')[0].appendChild(script);
+      function initMap() {
+
+
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 5,
+          center: {lat: 24.493807, lng: 45.784963},
+          mapTypeId: 'terrain'
+        });
+
+
+
+
+        //test
+        var infowindow = new google.maps.InfoWindow;
+
+        var marker, i;
+
+        /////////////use this
+        var values = [30,50,40,70,80,90,20,100,300,120,134,176,126,245,845];
+        for (i = 0; i < locations.length; i++) {  
+            marker = new google.maps.Marker({
+                position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                icon: getCircle(locations[i][3]),
+                map: map
+            });
+
+            google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                return function() {
+                	//set the info in pop up
+                    infowindow.setContent("/t"+locations[i][0]);
+                    infowindow.open(map, marker);
+                    $('#field1').html(values[Math.floor((Math.random() * values.length) + 1)]);
+                    $('#field11').html(values[Math.floor((Math.random() * values.length) + 1)]);
+                    $('#field2').html(dlb[i]);
+                    $('#field3').html(Math.round(ctd[i]));
+                    $('#field33').html(values[Math.floor((Math.random() * values.length) + 1)]);
+                    $('#field4').html(values[Math.floor((Math.random() * values.length) + 1)]);
+                    //addData(chart,hospitals,ctd);
+
+                    removeData(chart2);
+                }
+            })(marker, i));
+        }
+
+
+
+
+
+        // map.data.setStyle(function(feature) {
+        //   var magnitude = feature.getProperty('mag');
+        //   return {
+        //     icon: getCircle(magnitude)
+        //   };
+        // });
+      }
+
+      function getCircle(magnitude) {
+        return {
+          path: google.maps.SymbolPath.CIRCLE,
+          fillColor: 'red',
+          fillOpacity: (magnitude/10),
+          scale: 15,
+          strokeColor: 'white',
+          strokeWeight: .5
+        };
+      }
+
+      function eqfeed_callback(results) {
+        map.data.addGeoJson(results);
+      }
+
+     function createMarker(location, pinIcon) {
+        return new google.maps.Marker({
+            position: location,
+            icon: pinIcon
+        });
+     }
+     </script>
+
+
+     <script type="text/javascript">
+
+     
+     	 $.getJSON( "https://ds-nodejs.run.aws-usw02-pr.ice.predix.io/api/2457/2016/hospitals", function( data ){
+     		for(var i = 0 ; i < 12 ; i++)
+		  {
+		  	ctd.push(data.ctdi[i]);
+		  	dlb.push(Math.round(data.dlp[i]));
+		  	hospitals.push(data.names[i].substring(0,3));
+		  	locations[i][0] = data.names[i];
+		  	locations[i][3] = data.ctdi[i];
+		  }
+		  console.log(data);
+	});
+     
+
+
+     </script>
 </body>
 </html>

@@ -1,0 +1,16 @@
+{
+  "name": "ds-frontend",
+  "version": "1.0.0",
+  "description": "ds-frontend",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "yarob",
+  "license": "ISC",
+  "dependencies": {
+    "chart.js": "^2.6.0",
+    "materialize-css": "^0.100.1"
+  }
+}
