@@ -8,9 +8,6 @@ run postgress locally/return json locally
 */
 
 // DB code
-// var Client = require('pg').Client;
-// var client = new Client();
-
 var Pool = require('pg').Pool;
 var pool = new Pool();
 
@@ -18,30 +15,12 @@ pool.on('error', (err, client) => {
 	console.error('PG:', 'Unexpected error on idle client', err);
 });
 
-// function connect() {
-// 	return client.connect()
-// 	.then(() => console.log('PG:', 'Connected'))
-// 	.catch((e) => console.log('PG:', 'Connection Error', e));
-// }
-
-// function disconnect() {
-// 	return client.end()
-// 	.then(() => console.log('PG:', 'Disconnected'))
-// 	.catch(() => console.log('PG:', 'Error disconnecting'));
-// }
-
-// function testQuery() {
-// 	return client.query('select * from dosewatch_exams where id=9450')
-// 	.then((result) => console.log('PG:', 'result', result))
-// 	.catch((e) => console.log('PG:', 'error', e.stack));
-// }
-
 // q can be query string (sql) or query config object
 function query(q) {
 	return pool.query(q)
 	.then((result) => {
 		console.log('PG:', 'result', result.rowCount);//, result);
-		return result.rows;
+		return result;
 	})
 	.catch((e) => {
 		console.error('PG:', 'error', e.stack);
@@ -49,28 +28,84 @@ function query(q) {
 }
 
 function fetchExams() {
-	return query('select * from dosewatch_exams where facility_id=1616');
+	return query('select * from dosewatch_exams');
 }
 
-function fetchExamsArray() {
-	return query(
-		{
-			text: 'select * from dosewatch_exams where facility_id=1616',
-			rowMode: 'array'
-		}
-	);
+function byMonth(facility_id, year) {
+	return query({
+		name: 'bymonth',
+		text: 	'select ' +
+				  'extract(month from exam_datetime) as month_number, ' +
+				  'avg(ctdi_vol_max) as ctdi_avg, ' +
+				  'avg(normalized_dlp) as dlp_avg, ' +
+				  'count(id) as exams ' +
+				'from dosewatch_exams ' +
+				'where facility_id = $1 and extract(year from exam_datetime) = $2 ' +
+				'group by extract(month from exam_datetime)',
+		values: [facility_id, year],
+		rowMode: 'array'
+	});
 }
 
-// function exams() {
-// 	return Promise.resolve(fetchExams());
+function byProtocol(facility_id, year) {
+	return query({
+		name: 'byprotocol',
+		text: 	'select ' +
+				  'protocol_name, ' +
+				  'avg(ctdi_vol_max) as ctdi_avg, ' +
+				  'avg(normalized_dlp) as dlp_avg ' +
+				'from dosewatch_exams ' +
+				'where facility_id = $1 and extract(year from exam_datetime) = $2 ' +
+				'group by protocol_name',
+		values: [facility_id, year],
+		rowMode: 'array'
+	});
+}
+
+function byMachine(facility_id, year) {
+	return query({
+		name: 'bymachine',
+		text: 	'select ' +
+				  'machine_name, ' +
+				  'avg(ctdi_vol_max) as ctdi_avg, ' +
+				  'avg(normalized_dlp) as dlp_avg ' +
+				'from dosewatch_exams ' +
+				'where facility_id = $1 and extract(year from exam_datetime) = $2 ' +
+				'group by machine_name',
+		values: [facility_id, year],
+		rowMode: 'array'
+	});
+}
+
+// function byMachine(facility_id, year) {
+// 	return query({
+// 		name: 'bymachine',
+// 		text: 	'select ' +
+// 				  'machine_name, ' +
+// 				  'avg(ctdi_vol_max) as ctdi_avg, ' +
+// 				  'avg(normalized_dlp) as dlp_avg, ' +
+// 				'from dosewatch_exams ' +
+// 				'where facility_id = $1 and extract(year from exam_datetime) = $2 ' +
+// 				'group by machine_name',
+// 		values: [facility_id, year],
+// 		rowMode: 'array'
+// 	});
 // }
 
-// function examsArray() {
-// 	return Promise.resolve(fetchExamsArray());
-// }
-
-// connect();
-// testQuery();
+function byHospital(year) {
+	return query({
+		name: 'byhospital',
+		text:	'select ' +
+				  'facility_name, ' +
+				  'avg(ctdi_vol_max) as ctdi_avg, ' +
+				  'avg(normalized_dlp) as dlp_avg ' +
+				'from dosewatch_exams ' +
+				'where extract(year from exam_datetime) = $1 ' +
+				'group by facility_name',
+		values: [year],
+		rowMode: 'array'
+	});
+}
 
 // DB routes
 var express = require('express');
@@ -78,20 +113,153 @@ var router = express.Router();
 
 router.get('/exams', function(req, res, next) {
 	Promise.resolve(fetchExams()).then(
-		(rows) => {
-			console.log('PG:', '/exams', rows);
-			res.json(rows);
+		(result) => {
+			res.send('Count: ' + result.rowCount);
 		}
 	);
 });
 
-router.get('/exams_array', function(req, res, next) {
-	Promise.resolve(fetchExamsArray()).then(
-		(rows) => {
-			console.log('PG:', '/exams_array', rows);
-			res.json(rows);
+router.get('/:facility_id/:year/months', function(req, res, next) {
+	Promise.resolve(byMonth(req.params.facility_id, req.params.year)).then(
+		(result) => {
+			var rows = result.rows;
+			var data = {
+				ctdi: { values: [] },
+				dlp: { values: [] },
+				exams: { values: [] }
+			};
+
+			var missing = ['-1', 'missing', 'missing', 'missing'];
+			for (var i = 0; i < 12; i++) {
+				// optimize
+				var month_row = rows.find((e) => e[0] == i) || missing;
+
+				var ctdi = month_row[1];
+				data.ctdi.values.push(ctdi);
+
+				var dlp = month_row[2];
+				data.dlp.values.push(dlp);
+
+				var exam_count = month_row[3];
+				data.exams.values.push(exam_count);
+			}
+			res.json(data);
 		}
 	);
 });
+
+router.get('/:facility_id/:year/protocols', function(req, res, next) {
+	Promise.resolve(byProtocol(req.params.facility_id, req.params.year)).then(
+		(result) => {
+			var rows = result.rows;
+			var data = {
+				names: [],
+				ctdi: [],
+				dlp: []
+			};
+
+			for (var i = 0; i < rows.length; i++) {
+				var row = rows[i];
+
+				var name = row[0];
+				data.names.push(name);
+
+				var ctdi = row[1];
+				data.ctdi.push(ctdi);
+
+				var dlp = row[2];
+				data.dlp.push(dlp);
+			}
+			res.json(data);
+		}
+	);
+});
+
+router.get('/:facility_id/:year/machines', function(req, res, next) {
+	Promise.resolve(byMachine(req.params.facility_id, req.params.year)).then(
+		(result) => {
+			var rows = result.rows;
+			var data = {
+				names: [],
+				ctdi: [],
+				dlp: []
+			};
+
+			for (var i = 0; i < rows.length; i++) {
+				var row = rows[i];
+
+				var name = row[0];
+				data.names.push(name);
+
+				var ctdi = row[1];
+				data.ctdi.push(ctdi);
+
+				var dlp = row[2];
+				data.dlp.push(dlp);
+			}
+			res.json(data);
+		}
+	);
+});
+
+router.get('/:facility_id/:year/hospitals', function(req, res, next) {
+	Promise.resolve(byHospital(req.params.year)).then(
+		(result) => {
+			var rows = result.rows;
+			var data = {
+				names: [],
+				ctdi: [],
+				dlp: []
+			};
+
+			for (var i = 0; i < rows.length; i++) {
+				var row = rows[i];
+
+				var name = row[0];
+				data.names.push(name);
+
+				var ctdi = row[1];
+				data.ctdi.push(ctdi);
+
+				var dlp = row[2];
+				data.dlp.push(dlp);
+			}
+			res.json(data);
+		}
+	);
+});
+
+// router.get('/:facility_id/:year/machines', function(req, res, next) {
+// 	Promise.resolve(byMachine(req.params.facility_id, req.params.year)).then(
+// 		(result) => {
+// 			var rows = result.rows;
+// 			var data = {
+// 				labels: 
+// 				ctdi: { values: [] },
+// 				dlp: { values: [] },
+// 				exams: { values: [] }
+// 			};
+
+// 			var missing = ['-1', 'missing', 'missing', 'missing'];
+// 			for (var i = 0; i < 12; i++) {
+// 				// optimize
+// 				var month_row = rows.find((e) => e[0] == i) || missing;
+
+// 				var ctdi = month_row[1];
+// 				data.ctdi.values.push(ctdi);
+
+// 				var dlp = month_row[2];
+// 				data.dlp.values.push(dlp);
+
+// 				var exam_count = month_row[3];
+// 				data.exams.values.push(exam_count);
+// 			}
+// 			res.json(data);
+// 		}
+// 	);
+// });
+
+// Helpers
+// var month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 module.exports = router;

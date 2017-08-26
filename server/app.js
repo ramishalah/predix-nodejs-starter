@@ -40,6 +40,9 @@ var learningpaths = require('./learningpaths/learningpaths.js');
 ***********************************************************************/
 var app = express();
 
+var cors = require('cors');
+app.use(cors());
+
 var db = require('./dbtest');
 app.use('/api', db);
 
